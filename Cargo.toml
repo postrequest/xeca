@@ -1,0 +1,16 @@
+[package]
+name = "xeca"
+version = "0.1.0"
+authors = ["postrequest"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = "2.33"
+base64 = "0.12"
+block-modes = "0.3"
+aes-soft = "0.3"
+hex-literal = "0.2"
+rand = "0.5"
+byteorder = "1.3"
