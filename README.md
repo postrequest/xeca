@@ -5,6 +5,7 @@ Creating position independent shellcode from DLL files is also possible.
 
 ## Table of Contents
 - [xeca](#xeca)
+  * [Install](#install)
   * [How It Works](#how-it-works)
   * [Mitigations](#mitigations)
   * [Examples](#examples)
@@ -14,11 +15,13 @@ Creating position independent shellcode from DLL files is also possible.
   * [Acknowledgements](#acknowledgements)
   * [License](#license)
 
-## How It Works
+## Install
 Firstly ensure that rust is [installed](https://www.rust-lang.org/tools/install), then build the project with the following command:
 ```
 cargo build
 ```
+
+## How It Works
 1. Identify and encrypt the payload. Load encrypted payload into a powershell script and save to a file named "launch.txt"
 3. The key to decrypt the payload is saved to a file named "safe.txt"
 3. Execute "launch.txt" on a remote host
