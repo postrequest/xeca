@@ -48,7 +48,7 @@ If users must have access to programs such as powershell.exe, consider minimisin
 ## Acknowledgements
 This tool would not be possible without the sharing of knowledge and information. Ideas, snippets and code from from the following authors should be acknowledged:  
 [@monoxgas](https://github.com/monoxgas)  
-[H0neyBadger](https://github.com/H0neyBadger)  
+[@H0neyBadger](https://github.com/H0neyBadger)  
 [@stephenfewer](https://github.com/stephenfewer)  
 [@dismantl](https://github.com/dismantl)  
 
