@@ -46,7 +46,7 @@ If users must have access to programs such as powershell.exe, consider minimisin
 ![gif](https://github.com/postrequest/storage/blob/master/xeca/sliver.gif?raw=true)
 
 ## Acknowledgements
-This tool would not be possible without the sharing of knowledge and information. Ideas, snippets and code from from the following authors should be acknowledged:  
+This tool would not be possible without the sharing of knowledge and information. Ideas, snippets and code from the following authors should be acknowledged:  
 [@monoxgas](https://github.com/monoxgas)  
 [@H0neyBadger](https://github.com/H0neyBadger)  
 [@stephenfewer](https://github.com/stephenfewer)  
