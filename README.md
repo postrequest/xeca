@@ -9,6 +9,7 @@ Creating position independent shellcode from DLL files is also possible.
   * [How It Works](#how-it-works)
   * [Mitigations](#mitigations)
   * [Examples](#examples)
+    + [Covenant](#covenant)
     + [Empire](#empire)
     + [Merlin](#merlin)
     + [Sliver](#sliver)
@@ -33,6 +34,10 @@ cargo build
 If users must have access to programs such as powershell.exe, consider minimising security risks with [Just Enough Administration](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/overview?view=powershell-7) and [PowerShell Logging](https://docs.microsoft.com/en-us/powershell/scripting/windows-powershell/wmf/whats-new/script-logging?view=powershell-7). Application control policies can be deployed via a whitelisting technology such as [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/applocker-overview).
 
 ## Examples
+### Covenant
+[Covenant](https://github.com/cobbr/Covenant) .NET assembly donut payload.
+![gif](https://github.com/postrequest/storage/blob/master/xeca/covenant.gif?raw=true)
+
 ### Empire
 [Empire](https://github.com/bc-security/empire) PowerShell payload.
 ![gif](https://github.com/postrequest/storage/blob/master/xeca/empire.gif?raw=true)
@@ -49,6 +54,7 @@ If users must have access to programs such as powershell.exe, consider minimisin
 This tool would not be possible without the sharing of knowledge and information. Ideas, snippets and code from the following authors should be acknowledged:  
 [@monoxgas](https://github.com/monoxgas)  
 [@H0neyBadger](https://github.com/H0neyBadger)  
+[@TheWover](https://github.com/TheWover)
 [@stephenfewer](https://github.com/stephenfewer)  
 [@dismantl](https://github.com/dismantl)  
 
