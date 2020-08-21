@@ -119,35 +119,35 @@ pub fn convert_to_shellcode(dll_bytes: Vec<u8>, function_hash: [u8; 4], user_dat
         let user_data_location = dll_offset + dll_bytes.len();
         bootstrap.extend_from_slice(&pack(user_data_location as u32));
 
-		// mov r9d, <Length of User Data>
-		bootstrap.extend_from_slice(&[0x41, 0xb9]);
+        // mov r9d, <Length of User Data>
+        bootstrap.extend_from_slice(&[0x41, 0xb9]);
         bootstrap.extend_from_slice(&pack(user_data.len() as u32));
 
-		// push rsi - save original value
-		bootstrap.extend_from_slice(&[0x56]);
+        // push rsi - save original value
+        bootstrap.extend_from_slice(&[0x56]);
 
-		// mov rsi, rsp - store our current stack pointer for later
+        // mov rsi, rsp - store our current stack pointer for later
         bootstrap.extend_from_slice(&[0x48, 0x89, 0xe6]);
 
-		// and rsp, 0x0FFFFFFFFFFFFFFF0 - Align the stack to 16 bytes
+        // and rsp, 0x0FFFFFFFFFFFFFFF0 - Align the stack to 16 bytes
         bootstrap.extend_from_slice(&[0x48, 0x83, 0xe4, 0xf0]);
 
-		// sub rsp, 0x30 - Create some breathing room on the stack
+        // sub rsp, 0x30 - Create some breathing room on the stack
         bootstrap.extend_from_slice(&[0x48, 0x83, 0xec]);
         bootstrap.extend_from_slice(&[0x30]); // 32 bytes for shadow space + 8 bytes for last arg + 8 bytes for stack alignment
 
-		// mov dword ptr [rsp + 0x20], <Flags> - Push arg 5 just above shadow space
+        // mov dword ptr [rsp + 0x20], <Flags> - Push arg 5 just above shadow space
         bootstrap.extend_from_slice(&[0xC7, 0x44, 0x24]);
         bootstrap.extend_from_slice(&[0x20]);
         bootstrap.extend_from_slice(&pack(flags as u32));
 
-		// call - Transfer execution to the RDI
+        // call - Transfer execution to the RDI
         bootstrap.extend_from_slice(&[0xe8]);
-		let remainder_of_instructions = bootstrap_size - bootstrap.len()- 4;
+        let remainder_of_instructions = bootstrap_size - bootstrap.len()- 4;
         bootstrap.extend_from_slice(&[remainder_of_instructions as u8]); // Skip over the remainder of instructions
         bootstrap.extend_from_slice(&[0x00, 0x00, 0x00]);
 
-		// mov rsp, rsi - Reset our original stack pointer
+        // mov rsp, rsi - Reset our original stack pointer
         bootstrap.extend_from_slice(&[0x48, 0x89, 0xf4]);
 
         // pop rsi - Put things back where we left them
@@ -156,11 +156,11 @@ pub fn convert_to_shellcode(dll_bytes: Vec<u8>, function_hash: [u8; 4], user_dat
         // ret - return to caller
         bootstrap.extend_from_slice(&[0xc3]);
 
-		// Ends up looking like this in memory:
-		// Bootstrap shellcode
-		// RDI shellcode
-		// DLL bytes
-		// User data
+        // Ends up looking like this in memory:
+        // Bootstrap shellcode
+        // RDI shellcode
+        // DLL bytes
+        // User data
         final_shellcode.extend_from_slice(&bootstrap);
         final_shellcode.extend_from_slice(&rdi_shellcode_64);
         final_shellcode.extend_from_slice(&dll_bytes);
@@ -176,7 +176,7 @@ pub fn convert_to_shellcode(dll_bytes: Vec<u8>, function_hash: [u8; 4], user_dat
         // Set the offset to our DLL from pop result
         let dll_offset = bootstrap_size - bootstrap.len() + rdi_shellcode_32.len();
 
-		// pop eax - Capture our current location in memory
+        // pop eax - Capture our current location in memory
         bootstrap.extend_from_slice(&[0x58]);
 
         // mov ebx, eax - copy our location in memory to ebx before we start modifying eax
@@ -195,7 +195,7 @@ pub fn convert_to_shellcode(dll_bytes: Vec<u8>, function_hash: [u8; 4], user_dat
         bootstrap.extend_from_slice(&[0x68]);
         bootstrap.extend_from_slice(&pack(flags as u32));
 
-		// push <Length of User Data>
+        // push <Length of User Data>
         bootstrap.extend_from_slice(&[0x68]);
         bootstrap.extend_from_slice(&pack(user_data.len() as u32));
 
@@ -211,7 +211,7 @@ pub fn convert_to_shellcode(dll_bytes: Vec<u8>, function_hash: [u8; 4], user_dat
 
         // call - Transfer execution to the RDI
         bootstrap.extend_from_slice(&[0xe8]);
-		let remainder_of_instructions = bootstrap_size - bootstrap.len()- 4;
+        let remainder_of_instructions = bootstrap_size - bootstrap.len()- 4;
         bootstrap.extend_from_slice(&[remainder_of_instructions as u8]);
         bootstrap.extend_from_slice(&[0x00, 0x00, 0x00]);
 
@@ -221,11 +221,11 @@ pub fn convert_to_shellcode(dll_bytes: Vec<u8>, function_hash: [u8; 4], user_dat
         // ret - return to caller
         bootstrap.extend_from_slice(&[0xc3]);
 
-		// Ends up looking like this in memory:
-		// Bootstrap shellcode
-		// RDI shellcode
-		// DLL bytes
-		// User data
+        // Ends up looking like this in memory:
+        // Bootstrap shellcode
+        // RDI shellcode
+        // DLL bytes
+        // User data
         final_shellcode.extend_from_slice(&bootstrap);
         final_shellcode.extend_from_slice(&rdi_shellcode_32);
         final_shellcode.extend_from_slice(&dll_bytes);
