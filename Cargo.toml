@@ -1,6 +1,6 @@
 [package]
 name = "xeca"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["postrequest"]
 edition = "2018"
 
