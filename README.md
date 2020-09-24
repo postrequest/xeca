@@ -57,6 +57,8 @@ This tool would not be possible without the sharing of knowledge and information
 [@TheWover](https://github.com/TheWover)  
 [@stephenfewer](https://github.com/stephenfewer)  
 [@dismantl](https://github.com/dismantl)  
+[@tandasat](https://github.com/tandasat)  
+[@cobbr](https://github.com/cobbr)  
 
 ## License
 xeca is licensed under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html), some sub-components may have separate licenses. See their respective references in this project for details.
