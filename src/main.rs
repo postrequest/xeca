@@ -10,13 +10,13 @@ pub mod util;
 fn main() {
     // parse args
     let mut app = App::new("xeca")
-        .version("0.2.0")
+        .version("0.3.0")
         .author("written by postrequest")
         .about("Encrypted payload generator")
         .subcommand(
             App::new("powershell")
                 .about("Encrypt PowerShell payload to execute in memory")
-                .version("0.2.0")
+                .version("0.3.0")
                 .author("written by postrequest")
                 .setting(AppSettings::ArgRequiredElseHelp)
                 .arg(
@@ -57,7 +57,7 @@ fn main() {
         .subcommand(
             App::new("shellcode")
                 .about("PowerShell payload to execute reflective encrypted DLL shellcode in memory")
-                .version("0.2.0")
+                .version("0.3.0")
                 .author("written by postrequest")
                 .setting(AppSettings::ArgRequiredElseHelp)
                 .arg(
@@ -119,7 +119,7 @@ fn main() {
         .subcommand(
             App::new("reflective")
                 .about("PowerShell payload to reflectively execute encrypted PE/DLL in memory")
-                .version("0.2.0")
+                .version("0.3.0")
                 .author("written by postrequest")
                 .setting(AppSettings::ArgRequiredElseHelp)
                 .arg(
@@ -161,7 +161,7 @@ fn main() {
         .subcommand(
             App::new("donut")
                 .about("PowerShell payload to execute encrypted Donut shellcode in memory")
-                .version("0.2.0")
+                .version("0.3.0")
                 .author("written by postrequest")
                 .setting(AppSettings::ArgRequiredElseHelp)
                 .arg(
@@ -209,7 +209,7 @@ fn main() {
         .subcommand(
             App::new("convert")
                 .about("Convert DLL to shellcode")
-                .version("0.2.0")
+                .version("0.3.0")
                 .author("written by postrequest")
                 .setting(AppSettings::ArgRequiredElseHelp)
                 .arg(
