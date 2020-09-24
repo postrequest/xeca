@@ -3,6 +3,16 @@ pub fn get_amsi() -> String {
     format!("{}", String::from_utf8_lossy(amsi))
 }
 
+pub fn get_etw() -> String {
+    let amsi = include_bytes!("../assets/etw-bypass.ps1");
+    format!("{}", String::from_utf8_lossy(amsi))
+}
+
+pub fn get_scriptlog() -> String {
+    let amsi = include_bytes!("../assets/script-logging-bypass.ps1");
+    format!("{}", String::from_utf8_lossy(amsi))
+}
+
 pub fn get_invoke_shellcode() -> String {
     let invoke_shellcode = include_bytes!("../assets/Invoke-Shellcode.ps1");
     format!("{}", String::from_utf8_lossy(invoke_shellcode))

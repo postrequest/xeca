@@ -39,6 +39,16 @@ fn main() {
                     .help("Disable AMSI bypass in payload")
                 )
                 .arg(
+                    Arg::with_name("disable_etw")
+                    .long("disable-etw")
+                    .help("Disable ETW bypass in payload")
+                )
+                .arg(
+                    Arg::with_name("disable_scriptlog")
+                    .long("disable-script-logging")
+                    .help("Disable script logging bypass in payload")
+                )
+                .arg(
                     Arg::with_name("generate_hta")
                     .long("generate-hta")
                     .help("Generate HTA")
@@ -83,6 +93,16 @@ fn main() {
                     .help("Disable AMSI bypass in payload")
                 )
                 .arg(
+                    Arg::with_name("disable_etw")
+                    .long("disable-etw")
+                    .help("Disable ETW bypass in payload")
+                )
+                .arg(
+                    Arg::with_name("disable_scriptlog")
+                    .long("disable-script-logging")
+                    .help("Disable script logging bypass in payload")
+                )
+                .arg(
                     Arg::with_name("target-process")
                     .long("process")
                     .takes_value(true)
@@ -121,6 +141,16 @@ fn main() {
                     .help("Disable AMSI bypass in payload")
                 )
                 .arg(
+                    Arg::with_name("disable_etw")
+                    .long("disable-etw")
+                    .help("Disable ETW bypass in payload")
+                )
+                .arg(
+                    Arg::with_name("disable_scriptlog")
+                    .long("disable-script-logging")
+                    .help("Disable script logging bypass in payload")
+                )
+                .arg(
                     Arg::with_name("url")
                     .long("url")
                     .takes_value(true)
@@ -157,6 +187,16 @@ fn main() {
                     Arg::with_name("disable_amsi")
                     .long("disable-amsi")
                     .help("Disable AMSI bypass in payload")
+                )
+                .arg(
+                    Arg::with_name("disable_etw")
+                    .long("disable-etw")
+                    .help("Disable ETW bypass in payload")
+                )
+                .arg(
+                    Arg::with_name("disable_scriptlog")
+                    .long("disable-script-logging")
+                    .help("Disable script logging bypass in payload")
                 )
                 .arg(
                     Arg::with_name("url")
