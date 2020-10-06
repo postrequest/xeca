@@ -4,13 +4,13 @@ pub fn get_amsi() -> String {
 }
 
 pub fn get_etw() -> String {
-    let amsi = include_bytes!("../assets/etw-bypass.ps1");
-    format!("{}", String::from_utf8_lossy(amsi))
+    let etw = include_bytes!("../assets/etw-bypass.ps1");
+    format!("{}", String::from_utf8_lossy(etw))
 }
 
 pub fn get_scriptlog() -> String {
-    let amsi = include_bytes!("../assets/script-logging-bypass.ps1");
-    format!("{}", String::from_utf8_lossy(amsi))
+    let log = include_bytes!("../assets/script-logging-bypass.ps1");
+    format!("{}", String::from_utf8_lossy(log))
 }
 
 pub fn get_invoke_shellcode() -> String {

