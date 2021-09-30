@@ -1,4 +1,4 @@
-extern crate aes_soft as aes;
+extern crate aes;
 extern crate block_modes;
 extern crate rand;
 
@@ -17,7 +17,7 @@ pub fn encrypt(plaintext: &str)  -> ([u8; 16], Vec<u8>) {
     let mut rng = rand::thread_rng();
     let key: [u8; 16] = rng.gen();
     let iv:  [u8; 16] = rng.gen();
-    let cipher = Aes128Cbc::new_var(&key, &iv).unwrap();
+    let cipher = Aes128Cbc::new_from_slices(&key, &iv).unwrap();
     let ciphertext = cipher.encrypt_vec(plaintext_bytes);
     // prepend IV to ciphertext for PowerShell payload to use
     let mut iv_ciphertext = Vec::new();

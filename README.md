@@ -3,6 +3,8 @@ xeca is a project that creates encrypted PowerShell payloads for offensive purpo
 
 Creating position independent shellcode from DLL files is also possible.
 
+Note: Please place your custom AMSI bypass in `src/assets/amsi-bypass.ps1`.
+
 ## Table of Contents
 - [xeca](#xeca)
   * [Install](#install)
